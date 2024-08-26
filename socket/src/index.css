@@ -1,0 +1,21 @@
+.icon-container {
+    position: relative; /* Permite que la notificación se posicione en relación a este contenedor */
+    display: inline-block; /* Ajusta el tamaño del contenedor al tamaño del icono */
+  }  
+
+.notification {
+    position: absolute; /* Posiciona la notificación en relación al contenedor */
+    top: -5px; /* Ajusta la posición vertical; puedes cambiar este valor según el tamaño del icono */
+    right: -5px; /* Ajusta la posición horizontal; puedes cambiar este valor según el tamaño del icono */
+    background-color: rgb(0, 119, 255); /* Color de fondo del círculo de notificación */
+    color: white; /* Color del texto de la notificación */
+    border-radius: 50%; /* Hace que el fondo sea un círculo perfecto */
+    width: 20px; /* Ancho del círculo */
+    height: 20px; /* Alto del círculo */
+    display: flex; /* Hace que el texto esté centrado dentro del círculo */
+    align-items: center; /* Centra el texto verticalmente */
+    justify-content: center; /* Centra el texto horizontalmente */
+    font-size: 12px; /* Tamaño del texto */
+    font-weight: bold; /* Hace el texto más visible */
+    border: 2px solid white; /* Opcional: Añade un borde blanco para mayor contraste */
+  }
