@@ -1,22 +1,24 @@
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
-import { io } from 'socket.io-client';
-import { useEffect, useState } from 'react';
-import { ImAirplane } from "react-icons/im";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+import { io } from 'socket.io-client'
+import { useEffect, useState } from 'react'
+import { ImAirplane } from "react-icons/im"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 
 type Mensaje = {
   usuario: string;
   mensaje: string;
 };
 
-const socket = io('http://localhost:3000');
+const socket = io('http://localhost:4000');
 
 function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [nuevoMensaje, setNuevoMensaje] = useState('');
+  
   const [mensajes, setMensajes] = useState<Mensaje[]>([]);
 
   const [unreadCount, setUnreadCount] = useState(0); 
