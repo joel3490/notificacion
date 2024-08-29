@@ -9,43 +9,47 @@ import 'react-toastify/dist/ReactToastify.css'
 
 
 type Mensaje = {
-  usuario: string;
-  mensaje: string;
+  usuario: string
+  mensaje: string
 };
 
-const socket = io('http://localhost:4000');
+const socket = io('http://localhost:4000')
 
 function App() {
-  const [isConnected, setIsConnected] = useState(false);
-  const [nuevoMensaje, setNuevoMensaje] = useState('');
-  
-  const [mensajes, setMensajes] = useState<Mensaje[]>([]);
+  const [isConnected, setIsConnected] = useState(false)
+  const [nuevoMensaje, setNuevoMensaje] = useState('')
 
-  const [unreadCount, setUnreadCount] = useState(0); 
-  const [selectedMessage, setSelectedMessage] = useState(''); 
-  const [isHovered, setIsHovered] = useState(false);
+  const [mensajes, setMensajes] = useState<Mensaje[]>([])
+
+  const [unreadCount, setUnreadCount] = useState(0)
+  const [selectedMessage, setSelectedMessage] = useState('')
+
+
+
+
+
+  const [isHovered, setIsHovered] = useState(false)
   const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
+    setIsHovered(true)
+  }
   const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+    setIsHovered(false)
+  }
 
   useEffect(() => {
-    socket.on('connect', () => setIsConnected(true));
+    socket.on('connect', () => setIsConnected(true))
 
     socket.on('chat_mensaje', (data) => {
-      console.log(data);
-      setMensajes((mensajes) => [...mensajes, data]);
-      setUnreadCount((prevCount) => prevCount + 1); // Incrementar el contador de mensajes no leídos
-    });
+      console.log(data)
+      setMensajes((mensajes) => [...mensajes, data])
+      setUnreadCount((prevCount) => prevCount + 1) // Incrementar el contador de mensajes no leídos
+    })
 
     return () => {
-      socket.off('connect');
-      socket.off('chat_mensaje');
-    };
-  }, []);
+      socket.off('connect')
+      socket.off('chat_mensaje')
+    }
+  }, [])
 
   const enviarMensaje = () => {
     try {
@@ -53,9 +57,9 @@ function App() {
         usuario: socket.id,
         mensaje: nuevoMensaje,
       });
-      console.log(nuevoMensaje);
+      console.log(nuevoMensaje)
     } catch (error) {
-      console.log('error');
+      console.log('error')
     }
     toast.success('Se envió el mensaje', {
       position: "top-right",
@@ -66,13 +70,13 @@ function App() {
       draggable: true,
       progress: undefined,
       theme: "dark",
-    });
-  };
+    })
+  }
 
   const recibirMensaje = (mensaje: Mensaje) => {
-    setUnreadCount((prevCount) => Math.max(0, prevCount - 1)); // Restar uno al contador de no leídos
-    setSelectedMessage(mensaje.mensaje); // Mostrar el mensaje en el input
-  };
+    setUnreadCount((prevCount) => Math.max(0, prevCount - 1)) // Restar uno al contador de no leídos
+    setSelectedMessage(mensaje.mensaje) // Mostrar el mensaje en el input
+  }
 
   return (
     <>
@@ -85,6 +89,12 @@ function App() {
         </a>
       </div>
       <h1>{isConnected ? 'conectado' : 'no conectado'}</h1>
+
+
+
+
+
+
 
       <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6">
         <input
@@ -132,16 +142,16 @@ function App() {
       </div>
       <ToastContainer />
 
-      
-     
-      
-      
+
+
+
+
 
 
       <div className="icon-container">
-      <ImAirplane 
-        size={40}
-        onMouseEnter={handleMouseEnter}
+        <ImAirplane
+          size={40}
+          onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           style={{ zIndex: 20 }}
         />
@@ -155,37 +165,37 @@ function App() {
             style={{ zIndex: 30 }} // Asegúrate de que el z-index sea mayor que el del formulario
           >
             <table className="w-full table-auto">
-          <thead>
-            <tr>
-              <th className="text-left px-4 py-2">PROCEDENCIA</th>
-              <th className="text-left px-4 py-2">MATRICULA</th>
-              <th className="text-left px-4 py-2">CONTROLADOR</th>
-              <th className="px-4 py-2"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {mensajes.map((mensaje, index) => (
-              <tr key={index}>
-                <td className="px-4 py-2">{mensaje.usuario}</td>
-                <td className="px-4 py-2">{mensaje.mensaje}</td>
-                <td className="px-4 py-2">
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded"
-                    type="button"
-                    onClick={() => recibirMensaje(mensaje)} // Llamar a la función al hacer clic
-                  >
-                    Recibir
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              <thead>
+                <tr>
+                  <th className="text-left px-4 py-2">PROCEDENCIA</th>
+                  <th className="text-left px-4 py-2">MATRICULA</th>
+                  <th className="text-left px-4 py-2">CONTROLADOR</th>
+                  <th className="px-4 py-2"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {mensajes.map((mensaje, index) => (
+                  <tr key={index}>
+                    <td className="px-4 py-2">{mensaje.usuario}</td>
+                    <td className="px-4 py-2">{mensaje.mensaje}</td>
+                    <td className="px-4 py-2">
+                      <button
+                        className="bg-red-500 text-white px-4 py-2 rounded"
+                        type="button"
+                        onClick={() => recibirMensaje(mensaje)} // Llamar a la función al hacer clic
+                      >
+                        Recibir
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
-        <br />
-        <br />
+      <br />
+      <br />
 
 
       <div>
@@ -194,7 +204,7 @@ function App() {
           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4"
           placeholder="Mensaje recibido..."
           value={selectedMessage} // Mostrar el mensaje recibido
-          
+
         />
       </div>
 
@@ -204,7 +214,7 @@ function App() {
           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4"
           placeholder="Mensaje recibido..."
           value={selectedMessage} // Mostrar el mensaje recibido
-          
+
         />
       </div>
 
@@ -214,7 +224,7 @@ function App() {
           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4"
           placeholder="Mensaje recibido..."
           value={selectedMessage} // Mostrar el mensaje recibido
-          
+
         />
       </div>
       <div>
@@ -223,7 +233,7 @@ function App() {
           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4"
           placeholder="Mensaje recibido..."
           value={selectedMessage} // Mostrar el mensaje recibido
-          
+
         />
       </div>
       <div>
@@ -232,7 +242,7 @@ function App() {
           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4"
           placeholder="Mensaje recibido..."
           value={selectedMessage} // Mostrar el mensaje recibido
-          
+
         />
       </div>
     </>
